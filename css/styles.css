@@ -621,10 +621,10 @@ header a:hover {
 
 .carousel {
   position: relative;
-  overflow: hidden;
-  /* add safe padding so controls don't cover the carousel content */
-  padding-inline: 3rem;
+  overflow: hidden; /* keep slide content clipped to container */
   border-radius: calc(var(--radius) + 0.5rem);
+  /* remove large inline padding which causes slides to be cut off on smaller screens */
+  padding-inline: 0;
 }
 
 .carousel-track {
@@ -634,8 +634,8 @@ header a:hover {
   scroll-snap-type: x mandatory; /* snap slides to center */
   scroll-behavior: smooth;
   padding-bottom: 1rem;
-  /* make sure carousel track respects the inner padding and doesn't hide slides under controls */
-  padding-inline: 0.5rem;
+  /* add a modest inner padding so the first/last slide isn't flush against the edge */
+  padding-inline: 1rem;
 }
 
 .carousel-track::-webkit-scrollbar {
@@ -649,9 +649,10 @@ header a:hover {
 
 .carousel-slide {
   flex: 0 0 calc(100% - 0.5rem);
-  min-width: 260px;
+  min-width: 220px; /* allow tighter layouts on small devices */
   scroll-snap-align: center; /* ensure each slide snaps to center */
   scroll-snap-stop: always;
+  box-sizing: border-box;
 }
 
 @media (min-width: 640px) {
@@ -663,6 +664,31 @@ header a:hover {
 @media (min-width: 1024px) {
   .carousel-slide {
     flex: 0 0 calc(33.333% - 0.667rem);
+  }
+}
+
+/* Make sure slides and track are accessible and not clipped on small screens */
+@media (max-width: 480px) {
+  .carousel {
+    padding-inline: 0.5rem; /* account for a small edge gap to the viewport */
+  }
+  .carousel-track {
+    padding-inline: 0.5rem; /* match the carousel padding */
+  }
+  .carousel-slide {
+    min-width: calc(100% - 0.5rem);
+    flex: 0 0 calc(100% - 0.5rem);
+    scroll-snap-align: start; /* start aligned on very small screens */
+  }
+  .carousel-prev, .carousel-next { top: 46%; }
+}
+
+@media (min-width: 641px) and (max-width: 1023px) {
+  .carousel {
+    padding-inline: 1rem;
+  }
+  .carousel-track {
+    padding-inline: 1rem;
   }
 }
 
