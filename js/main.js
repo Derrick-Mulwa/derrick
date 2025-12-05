@@ -111,11 +111,19 @@ function renderProjects(categories) {
     html += `</div><button class="carousel-next" aria-label="Next">▶</button>`;
     // Progress dots
     html += `<div class="carousel-progress" style="display:flex;gap:.5rem;margin-top:1rem;justify-content:center;">`;
-    category.projects.forEach((p, dotIndex) => {
+    
+    const limit_dots = category.projects.length - 2;
+
+    for (let dotIndex = 0; dotIndex < limit_dots; dotIndex++) {
       html += `<button class="progress-dot" aria-label="Go to slide ${dotIndex + 1}"></button>`;
-    });
+    }
+    
+    // category.projects.forEach((p, dotIndex) => {
+    //   html += `<button class="progress-dot" aria-label="Go to slide ${dotIndex + 1}"></button>`;
+    // });
     html += `</div></div></div>`;
   });
+  
   html += `</div></div></section>`;
   return html;
 }
@@ -218,96 +226,220 @@ class Carousel {
     this.slides = Array.from(this.track.querySelectorAll('.carousel-slide'));
     this.prevBtn = carouselElement.querySelector('.carousel-prev');
     this.nextBtn = carouselElement.querySelector('.carousel-next');
-    this.progressDots = carouselElement.querySelectorAll('.progress-dot');
+    this.progressDots = Array.from(carouselElement.querySelectorAll('.progress-dot'));
     this.currentIndex = 0;
-    this.maxScroll = Math.max(0, this.track.scrollWidth - this.track.clientWidth);
 
-    if (this.prevBtn) {
-      this.prevBtn.addEventListener('click', () => this.prevSlide());
-    }
-    if (this.nextBtn) {
-      this.nextBtn.addEventListener('click', () => this.nextSlide());
-    }
+    // Autoplay state
+    this.autoplayInterval = 3000; // ms
+    this.autoplayTimer = null;
+    this.autoplayRestartDelay = 3000; // ms
+    this.isAutoplaying = false;
+    this.isPaused = false;
+    this._restartTimeout = null;
 
-    // store a reference on the element so outside code can update layout
+    // Scroll state
+    this.isScrolling = false;
+    this._scrollTimeout = null;
+
+    // Store reference for external access
     carouselElement._carouselInstance = this;
 
-    // initial layout measurement
+    // Setup event listeners
+    if (this.prevBtn) this.prevBtn.addEventListener('click', () => this.handlePrevClick());
+    if (this.nextBtn) this.nextBtn.addEventListener('click', () => this.handleNextClick());
+    
+    // Use event delegation for progress dots to handle dynamic updates
+    const progressContainer = carouselElement.querySelector('.carousel-progress');
+    if (progressContainer) {
+      progressContainer.addEventListener('click', (e) => {
+        if (e.target.classList.contains('progress-dot')) {
+          const dots = Array.from(progressContainer.querySelectorAll('.progress-dot'));
+          const index = dots.indexOf(e.target);
+          if (index !== -1) this.handleDotClick(index);
+        }
+      });
+    }
+
+    // Autoplay pause/resume
+    this.carousel.addEventListener('mouseenter', () => this.pauseAutoplay());
+    this.carousel.addEventListener('mouseleave', () => this.resumeAutoplay());
+    this.carousel.addEventListener('focusin', () => this.pauseAutoplay());
+    this.carousel.addEventListener('focusout', () => this.resumeAutoplay());
+
+    // Tab visibility
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) this.pauseAutoplay();
+      else this.resumeAutoplay();
+    });
+
+    // Track scroll to update progress
+    this.track.addEventListener('scroll', () => this.onScroll());
+
+    // Initialize layout and start autoplay
     setTimeout(() => {
       this.updateLayout();
       this.goToSlide(this.currentIndex);
+      this.startAutoplay();
     }, 50);
-
-    this.progressDots.forEach((dot, index) => {
-      dot.addEventListener('click', () => this.goToSlide(index));
-    });
-
-    // Auto-scroll carousel on scroll
-    this.track.addEventListener('scroll', () => this.updateProgress());
-    // Ensure the progress indicator is set up initially
-    setTimeout(() => this.updateProgress(), 50);
   }
 
-  scroll(amount) {
-    this.track.scrollBy({
-      left: amount,
-      behavior: 'smooth'
-    });
+  // Handle prev button click
+  handlePrevClick() {
+    const len = this.slides.length - 2;
+    const newIndex = (this.currentIndex - 1 + len) % len;
+    this.goToSlide(newIndex);
+    this.pauseAutoplayBriefly();
   }
 
-  prevSlide() {
-    const len = this.slides.length;
-    let target = (this.currentIndex - 1 + len) % len;
-    // go to previous slide
-    this.goToSlide(target);
+  // Handle next button click
+  handleNextClick() {
+    const len = this.slides.length - 2;
+    const newIndex = (this.currentIndex + 1) % len;
+    this.goToSlide(newIndex);
+    this.pauseAutoplayBriefly();
   }
 
-  nextSlide() {
-    const len = this.slides.length;
-    let target = (this.currentIndex + 1) % len;
-    this.goToSlide(target);
+  // Handle progress dot click
+  handleDotClick(index) {
+    this.goToSlide(index);
+    this.pauseAutoplayBriefly();
   }
 
+  // Pause autoplay briefly after user interaction
+  pauseAutoplayBriefly() {
+    clearTimeout(this._restartTimeout);
+    this.pauseAutoplay();
+    if (this.autoplayRestartDelay > 0) {
+      this._restartTimeout = setTimeout(() => {
+        if (!this.isPaused) this.startAutoplay();
+      }, this.autoplayRestartDelay);
+    }
+  }
+
+  // Start autoplay timer
+  startAutoplay() {
+    if (!this.autoplayInterval || this.autoplayInterval <= 0) return;
+    if (this.slides.length <= 1) return;
+    if (this.autoplayTimer) return; // Already running
+    if (this.isPaused) return; // Don't start if paused
+
+    this.isAutoplaying = true;
+    this.autoplayTimer = setInterval(() => {
+      const len = this.slides.length - 2;
+      const newIndex = (this.currentIndex + 1) % len;
+      this.goToSlide(newIndex);
+    }, this.autoplayInterval);
+  }
+
+  // Pause autoplay (keep state so resume can restart it)
+  pauseAutoplay() {
+    this.isPaused = true;
+    if (this.autoplayTimer) {
+      clearInterval(this.autoplayTimer);
+      this.autoplayTimer = null;
+    }
+  }
+
+  // Resume autoplay
+  resumeAutoplay() {
+    this.isPaused = false;
+    if (this.isAutoplaying && !this.autoplayTimer) {
+      this.startAutoplay();
+    }
+  }
+
+  // Navigate to a specific slide
   goToSlide(index) {
-    const target = this.slides[index];
-    if (!target) return;
-    // center the slide in view
-    const left = Math.max(0, target.offsetLeft - (this.track.clientWidth - target.clientWidth) / 2);
-    this.track.scrollTo({ left, behavior: 'smooth' });
+    if (index < 0 || index >= this.slides.length) return;
+
     this.currentIndex = index;
+    this.updateActiveDot();
+
+    const slide = this.slides[index];
+    if (!slide) return;
+
+    // Scroll the slide into view by using the native scrollIntoView or simple scroll calculation
+    // Use slide.offsetLeft as the target scroll position (left-aligned)
+    const scrollLeft = slide.offsetLeft;
+
+    // Mark that we're scrolling to prevent onScroll from updating currentIndex
+    this.isScrolling = true;
+    clearTimeout(this._scrollTimeout);
+
+    this.track.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+
+    // Clear scrolling flag after smooth scroll completes
+    this._scrollTimeout = setTimeout(() => {
+      this.isScrolling = false;
+    }, 700);
   }
 
-  updateProgress() {
-    if (this.slides.length === 0) return;
-
-    const scrollLeft = this.track.scrollLeft;
-    // pick the slide with minimum distance to current scroll center
-    let nearest = 0;
-    let minDistance = Infinity;
-    const center = scrollLeft + this.track.clientWidth / 2;
-    this.slides.forEach((slide, i) => {
-      const slideCenter = slide.offsetLeft + slide.clientWidth / 2;
-      const distance = Math.abs(slideCenter - center);
-      if (distance < minDistance) {
-        minDistance = distance;
-        nearest = i;
-      }
-    });
+  // Update active progress dot
+  updateActiveDot() {
     this.progressDots.forEach((dot, i) => {
-      if (i === nearest) {
+      if (i === this.currentIndex) {
         dot.classList.add('active');
       } else {
         dot.classList.remove('active');
       }
     });
-    this.currentIndex = nearest;
   }
 
+  // Handle scroll events to detect which slide is visible
+  onScroll() {
+    if (this.isScrolling) return; // Ignore during programmatic scroll
+
+    if (this.slides.length === 0) return;
+
+    const scrollLeft = this.track.scrollLeft;
+    const trackCenter = scrollLeft + this.track.clientWidth / 2;
+
+    // Find the slide closest to the center
+    let nearest = 0;
+    let minDistance = Infinity;
+
+    this.slides.forEach((slide, i) => {
+      const slideCenter = slide.offsetLeft + slide.clientWidth / 2;
+      const distance = Math.abs(slideCenter - trackCenter);
+      if (distance < minDistance) {
+        minDistance = distance;
+        nearest = i;
+      }
+    });
+
+    // Only update if the detected slide changed
+    if (nearest !== this.currentIndex) {
+      this.currentIndex = nearest;
+      this.updateActiveDot();
+    }
+  }
+
+  // Update layout and measurements
   updateLayout() {
-    this.maxScroll = Math.max(0, this.track.scrollWidth - this.track.clientWidth);
     this.slides = Array.from(this.track.querySelectorAll('.carousel-slide'));
-    // re-evaluate current index after layout change
-    this.updateProgress();
+    this.progressDots = Array.from(this.carousel.querySelectorAll('.progress-dot'));
+    this.updateActiveDot();
+
+    // Hide progress dots container if there are 2 or fewer slides
+    const progressContainer = this.carousel.querySelector('.carousel-progress');
+    if (progressContainer) {
+      if (this.slides.length <= 2) {
+        progressContainer.style.display = 'none';
+      } else {
+        progressContainer.style.display = 'flex';
+      }
+    }
+
+    // Re-bind image load handlers for lazy-loaded images
+    this.carousel.querySelectorAll('img[data-src], img').forEach(img => {
+      if (!img._carouselBound) {
+        img.addEventListener('load', () => {
+          // Recompute layout when images load to account for layout shifts
+          setTimeout(() => this.updateLayout(), 50);
+        });
+        img._carouselBound = true;
+      }
+    });
   }
 }
 
