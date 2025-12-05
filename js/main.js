@@ -11,8 +11,10 @@ function renderHeader(info) {
         <a href="#contact">Contact</a>
       </nav>
       <div class="social-links">
-        <a class="social-link" href="${info.social.linkedin}" target="_blank" rel="noopener noreferrer" title="LinkedIn"><img src="images/linkedin_icon.svg" alt="LinkedIn" class="social-img"/></a>
-        <a class="social-link" href="${info.social.github}" target="_blank" rel="noopener noreferrer" title="GitHub"><img src="images/github_icon.svg" alt="GitHub" class="social-img"/></a>
+        <a class="social-link" href="${info.social.linkedin}" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn"><img src="images/linkedin_icon.svg" alt="LinkedIn" class="social-img"/></a>
+        <a class="social-link" href="${info.social.github}" target="_blank" rel="noopener noreferrer" title="GitHub" aria-label="GitHub"><img src="images/github_icon.svg" alt="GitHub" class="social-img"/></a>
+        <a class="social-link" href="mailto:${info.email}" title="Email" aria-label="Email"><img src="images/email_icon.svg" alt="GitHub" class="social-img"/>        </a>
+        <a class="social-link" href="${info.social.whatsapp}" target="_blank" rel="noopener noreferrer" title="WhatsApp" aria-label="WhatsApp"><img src="images/whatsapp_icon.svg" alt="WhatsApp" class="social-img"/></a>
       </div>
       <button class="menu-btn" aria-label="Open menu"> 
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
@@ -23,6 +25,12 @@ function renderHeader(info) {
       <a href="#skills">Skills</a>
       <a href="#projects">Projects</a>
       <a href="#contact">Contact</a>
+      <div class="mobile-social-links" style="display:flex;gap:0.75rem;margin-top:1rem;align-items:center;">
+         <a class="social-link" href="${info.social.linkedin}" target="_blank" rel="noopener noreferrer" title="LinkedIn"><img src="images/linkedin_icon.svg" alt="LinkedIn" class="social-img"/></a>
+         <a class="social-link" href="${info.social.github}" target="_blank" rel="noopener noreferrer" title="GitHub"><img src="images/github_icon.svg" alt="GitHub" class="social-img"/></a>
+         <a class="social-link" href="mailto:${info.email}" title="Email" aria-label="Email"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden><path d="M4 4h16v12H4z"></path><path d="M4 8l8 5 8-5"></path></svg></a>
+         <a class="social-link" href="${info.social.whatsapp}" target="_blank" rel="noopener noreferrer" title="WhatsApp" aria-label="WhatsApp"><img src="images/whatsapp_icon.svg" alt="WhatsApp" class="social-img"/></a>
+      </div>
     </div>
   </header>
   `;
@@ -112,7 +120,7 @@ function renderProjects(categories) {
     // Progress dots
     html += `<div class="carousel-progress" style="display:flex;gap:.5rem;margin-top:1rem;justify-content:center;">`;
     
-    const limit_dots = category.projects.length - 2;
+    const limit_dots = category.projects.length;
 
     for (let dotIndex = 0; dotIndex < limit_dots; dotIndex++) {
       html += `<button class="progress-dot" aria-label="Go to slide ${dotIndex + 1}"></button>`;
@@ -145,13 +153,30 @@ function renderContact(info) {
               <div class="contact-item"><div class="contact-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden><path d="M16 11c0 4-4 8-4 8s-4-4-4-8a4 4 0 1 1 8 0z"></path><circle cx="12" cy="11" r="1"></circle></svg></div><div class="contact-detail"><span class="contact-label">Location</span><div class="contact-value">${info.location}</div></div></div>
             </div>
             <div class="contact-social"><p>Connect with me</p><div class="social-icons"><a class="social-icon-btn" href="${info.social.linkedin}" target="_blank" rel="noopener noreferrer" title="LinkedIn"><img src="images/linkedin_icon.svg" alt="LinkedIn" class="social-img"/></a><a class="social-icon-btn" href="${info.social.github}" target="_blank" rel="noopener noreferrer" title="GitHub"><img src="images/github_icon.svg" alt="GitHub" class="social-img"/></a><a class="social-icon-btn" href="${info.social.whatsapp}" target="_blank" rel="noopener noreferrer" title="WhatsApp"><img src="images/whatsapp_icon.svg" alt="WhatsApp" class="social-img"/></a></div></div>
+              <div class="contact-cta moved-cta">
+                <h3>Let's build something</h3>
+                <p>If you'd like to work together or discuss a project, reach out and we can collaborate to find the right solution.</p>
+                <div class="cta-buttons"><a href="mailto:${info.email}" class="cta-btn primary">Email me</a><a href="${info.social.linkedin}" class="cta-btn outline">Message on LinkedIn</a></div>
+              </div>
           </div>
-          <div class="contact-cta">
-            <h3>Let's build something</h3>
-            <p>If you'd like to work together or discuss a project, reach out and we can collaborate to find the right solution.</p>
-            <div class="cta-buttons"><a href="mailto:${info.email}" class="cta-btn primary">Email me</a><a href="${info.social.linkedin}" class="cta-btn outline">Message on LinkedIn</a></div>
-            <div class="cta-decorative cta-decorative-1"></div>
-            <div class="cta-decorative cta-decorative-2"></div>
+          <div class="contact-form-container">
+            <form id="contact-form" class="contact-form" method="POST" action="https://api.web3forms.com/submit" aria-label="Contact form">
+              <div class="form-row">
+                <div class="form-field"><label for="name">Name</label><input type="text" name="name" id="name" placeholder="Name" required/></div>
+                <div class="form-field"><label for="email">Email</label><input type="email" name="email" id="email" placeholder="Email" required/></div>
+              </div>
+              <div class="form-row">
+                <div class="form-field" style="grid-column: 1 / -1"><label for="category">Subject</label><select name="category" id="category"><option value="">- Subject -</option><option value="Project offer">Project offer</option><option value="Job offer">Job offer</option><option value="Connection and networking">Connection and networking</option><option value="Mentorship">Mentorship</option></select></div>
+              </div>
+              <div class="form-row">
+                <div class="form-field" style="grid-column: 1 / -1"><label for="message">Message</label><textarea name="message" id="message" placeholder="Enter your message" rows="6" required></textarea></div>
+              </div>
+              <input type="hidden" name="access_key" value="b08991d1-c9e3-4354-8d3c-969dfdd0643d" />
+              <input type="hidden" name="subject" value="New Submission from my portfolio website" />
+              <input type="hidden" name="from_name" value="Get in touch Portfolio website" />
+              <div class="form-actions"><input type="submit" value="Send Message" class="primary"/><input type="reset" value="Reset" /></div>
+              <div class="form-result" role="status" aria-live="polite"></div>
+            </form>
           </div>
         </div>
       </div>
@@ -285,7 +310,7 @@ class Carousel {
 
   // Handle prev button click
   handlePrevClick() {
-    const len = this.slides.length - 2;
+    const len = this.slides.length;
     const newIndex = (this.currentIndex - 1 + len) % len;
     this.goToSlide(newIndex);
     this.pauseAutoplayBriefly();
@@ -293,7 +318,7 @@ class Carousel {
 
   // Handle next button click
   handleNextClick() {
-    const len = this.slides.length - 2;
+    const len = this.slides.length;
     const newIndex = (this.currentIndex + 1) % len;
     this.goToSlide(newIndex);
     this.pauseAutoplayBriefly();
@@ -514,4 +539,39 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
+});
+
+// Contact form submission handling
+document.addEventListener('DOMContentLoaded', function() {
+  const contactForm = document.getElementById('contact-form');
+  if (!contactForm) return;
+  const formResult = contactForm.querySelector('.form-result');
+
+  contactForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (!contactForm.checkValidity()) {
+      contactForm.reportValidity();
+      return;
+    }
+    const submitBtn = contactForm.querySelector('input[type="submit"]');
+    submitBtn.disabled = true;
+    formResult.textContent = 'Sending...';
+
+    fetch(contactForm.action, {
+      method: 'POST',
+      body: new FormData(contactForm)
+    }).then(res => res.json()).then(data => {
+      if (data.success || data.success === undefined) {
+        formResult.textContent = 'Thank you! Your message has been sent.';
+        formResult.classList.remove('error');
+        contactForm.reset();
+      } else {
+        formResult.textContent = data.message || 'There was an issue sending your message.';
+        formResult.classList.add('error');
+      }
+    }).catch(err => {
+      formResult.textContent = 'Error sending message. Please try again later.';
+      formResult.classList.add('error');
+    }).finally(() => { submitBtn.disabled = false; setTimeout(() => formResult.textContent = '', 6000); });
+  });
 });

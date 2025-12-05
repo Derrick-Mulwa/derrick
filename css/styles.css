@@ -180,6 +180,14 @@ header .mobile-menu.open {
   }
 }
 
+/* Mobile menu social icons (for small screens) */
+.mobile-menu .mobile-social-links {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+.mobile-menu .mobile-social-links .social-img { width: 20px; height: 20px; }
+
 header a {
   font-size: 0.875rem;
   color: hsl(var(--muted-foreground));
@@ -412,6 +420,13 @@ header a:hover {
   height: 18px;
   display: block;
   object-fit: contain;
+}
+
+/* Ensure inline SVG icons used for social links match the size of .social-img */
+.social-link svg {
+  width: 18px;
+  height: 18px;
+  display: block;
 }
 
 .scroll-indicator {
@@ -868,6 +883,7 @@ header a:hover {
   display: grid;
   grid-template-columns: 1fr;
   gap: 3rem;
+  align-items: start; /* keep columns aligned at the top */
 }
 
 @media (min-width: 768px) {
@@ -939,7 +955,7 @@ header a:hover {
 
 .contact-social {
   padding-top: 1.5rem;
-  border-top: 1px solid hsl(var(--border));
+  /* border-top: 1px solid hsl(var(--border)); */
 }
 
 .contact-social p {
@@ -986,6 +1002,148 @@ header a:hover {
   border: 1px solid hsl(var(--border));
   background-color: hsl(var(--card));
   padding: 2rem;
+}
+
+/* New contact form styles */
+.contact-form-container {
+  padding: 0;
+}
+
+.contact-form {
+  display: grid;
+  gap: 1rem;
+}
+.contact-form-container { display: block; }
+.contact-form { padding: 1.25rem; border-radius: calc(var(--radius) + 0.25rem); border: 1px solid hsl(var(--border)); background-color: hsl(var(--card)); }
+.contact-form .form-actions { justify-content: flex-end; }
+
+.contact-form .form-actions input[type="submit"],
+.contact-form .form-actions input[type="reset"] { min-width: 140px; }
+
+.contact-form .form-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.contact-form .form-row .form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form select,
+.contact-form textarea {
+  border: 1px solid hsl(var(--border));
+  background: transparent;
+  color: hsl(var(--foreground));
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  font-family: inherit;
+}
+
+.contact-form input[type="text"]:focus,
+.contact-form input[type="email"]:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: hsl(var(--muted-foreground));
+  box-shadow: 0 6px 18px rgba(255,255,255,0.02);
+}
+
+.contact-form textarea { min-height: 120px; resize: vertical; }
+
+.contact-form label {
+  font-size: 0.75rem;
+  color: hsl(var(--muted-foreground));
+  margin-bottom: 0.35rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-start;
+}
+
+.form-actions .primary {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  border: none;
+}
+
+.form-actions input[type="reset"] {
+  background: transparent;
+  color: hsl(var(--muted-foreground));
+  border: 1px solid hsl(var(--border));
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+}
+
+/* Single column on small screens */
+@media (max-width: 767px) {
+  .contact-grid { grid-template-columns: 1fr; }
+  .contact-form .form-row { grid-template-columns: 1fr; }
+  .form-actions { flex-direction: column; }
+}
+
+/* Make the contact info column more prominent */
+.contact-info {
+  border-radius: calc(var(--radius) + 0.5rem);
+  border: 1px solid hsl(var(--border));
+  background-color: hsl(var(--card));
+  padding: 1.5rem;
+}
+.contact-cta.moved-cta {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border-radius: calc(var(--radius) + 0.5rem);
+  border: 1px solid hsl(var(--border));
+  background-color: hsl(var(--card));
+}
+.contact-cta.moved-cta .cta-buttons { margin-top: 0.75rem; }
+
+/* Dropdown contrast and appearance improvements */
+.contact-form select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: hsl(var(--card));
+  color: hsl(var(--foreground));
+  border: 1px solid hsl(var(--border));
+  padding: 0.6rem 1rem 0.6rem 0.75rem;
+  border-radius: 8px;
+  background-image: linear-gradient(45deg, transparent 50%, hsl(var(--muted-foreground)) 50%), linear-gradient(135deg, hsl(var(--muted-foreground)) 50%, transparent 50%);
+  background-position: calc(100% - 18px) calc(1em + 2px), calc(100% - 13px) calc(1em + 2px);
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+.contact-form select option {
+  color: hsl(var(--foreground));
+  background-color: hsl(var(--card));
+}
+
+/* Ensure select has proper focus state */
+.contact-form select:focus { outline: none; border-color: hsl(var(--muted-foreground)); box-shadow: 0 6px 18px rgba(255,255,255,0.02); }
+
+.contact-info h3 { margin-bottom: 1rem; }
+.contact-info .contact-items { gap: 0.5rem; }
+.contact-info .contact-item { gap: 0.75rem; }
+
+/* Add subtle box shadow for modern look */
+.contact-cta, .contact-info, .contact-form {
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+.form-result {
+  margin-top: .75rem;
+  font-size: 0.95rem;
+  color: hsl(var(--foreground));
+}
+.form-result.error {
+  color: hsl(var(--destructive));
 }
 
 .contact-cta h3 {
