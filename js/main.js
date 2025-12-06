@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', function() {
   renderSite();
 
   // Initialize hero particle animation (if present)
-  initHeroParticles();
+  // initHeroParticles();
 
   const menuBtn = document.querySelector('.menu-btn');
   const mobileMenu = document.querySelector('.mobile-menu');
@@ -483,9 +483,9 @@ class Carousel {
     this.currentIndex = 0;
 
     // Autoplay state
-    this.autoplayInterval = 3000; // ms
+    this.autoplayInterval = 7000; // ms
     this.autoplayTimer = null;
-    this.autoplayRestartDelay = 3000; // ms
+    this.autoplayRestartDelay = 7000; // ms
     this.isAutoplaying = false;
     this.isPaused = false;
     this._restartTimeout = null;
@@ -587,7 +587,7 @@ class Carousel {
 
     this.isAutoplaying = true;
     this.autoplayTimer = setInterval(() => {
-      const len = this.slides.length - 2;
+      const len = this.slides.length ;
       const newIndex = (this.currentIndex + 1) % len;
       this.goToSlide(newIndex);
     }, this.autoplayInterval);

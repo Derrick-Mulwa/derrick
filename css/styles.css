@@ -869,16 +869,24 @@ header a:hover {
   font-weight: 600;
   font-size: 0.95rem;
 }
-.review-location { color: hsl(var(--muted-foreground)); font-size: 0.85rem; flex: 0 0 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: right; }
+.review-location {
+  color: hsl(var(--muted-foreground));
+  font-size: 0.85rem;
+  /* Place below name: allow wrapping and left align */
+  overflow: visible;
+  white-space: normal;
+  text-overflow: unset;
+  text-align: left;
+}
 .review-project {
   font-size: 0.85rem;
   color: hsl(var(--muted-foreground));
 }
 .review-header {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
+  flex-direction: column; /* stack name and location */
+  align-items: flex-start;
+  gap: 0.25rem;
 }
 .review-client { text-align: left; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .review-project { font-weight: 700; color: hsl(var(--foreground)); margin-top: 1rem; font-size: 1rem; }
