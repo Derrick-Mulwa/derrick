@@ -180,14 +180,6 @@ header .mobile-menu.open {
   }
 }
 
-/* Mobile menu social icons (for small screens) */
-.mobile-menu .mobile-social-links {
-  display: flex;
-  gap: 0.75rem;
-  margin-top: 1rem;
-}
-.mobile-menu .mobile-social-links .social-img { width: 20px; height: 20px; }
-
 header a {
   font-size: 0.875rem;
   color: hsl(var(--muted-foreground));
@@ -216,6 +208,20 @@ header a:hover {
   position: absolute;
   inset: 0;
   z-index: -10;
+}
+.hero-particles {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -20; /* behind glows */
+  pointer-events: none; /* don't block UI interactions */
+  display: block;
+}
+
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .hero-particles { display: none !important; }
 }
 
 .hero-glow {
@@ -411,7 +417,8 @@ header a:hover {
 .social-link:hover {
   color: hsl(var(--foreground));
   text-decoration: underline;
-  text-decoration-offset: 0.25rem;
+  /* text-decoration-offset is not widely supported; use text-underline-offset instead */
+  text-underline-offset: 0.25rem;
 }
 
 /* Social icon images (SVG/PNG) used for social links */
@@ -420,13 +427,6 @@ header a:hover {
   height: 18px;
   display: block;
   object-fit: contain;
-}
-
-/* Ensure inline SVG icons used for social links match the size of .social-img */
-.social-link svg {
-  width: 18px;
-  height: 18px;
-  display: block;
 }
 
 .scroll-indicator {
@@ -595,6 +595,34 @@ header a:hover {
   width: 100%;
 }
 
+/* Skill bullet list */
+.skill-list {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 0.75rem;
+  display: grid;
+  gap: 0.4rem;
+  align-self: stretch; /* allow full width of the card */
+  text-align: left; /* left-align bullet contents */
+}
+.skill-item {
+  position: relative;
+  padding-left: 1.1rem;
+  font-size: 0.82rem;
+  color: hsl(var(--muted-foreground));
+}
+.skill-item::before {
+  content: '';
+  position: absolute;
+  height: 8px;
+  width: 8px;
+  left: 0;
+  top: 0.45rem;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: linear-gradient(180deg, hsl(var(--accent) / 0.9), hsl(var(--accent) / 0.6));
+}
+
 /* Projects Section */
 #projects {
   padding: 6rem 1.5rem;
@@ -650,7 +678,7 @@ header a:hover {
   scroll-behavior: smooth;
   padding-bottom: 1rem;
   /* add a modest inner padding so the first/last slide isn't flush against the edge */
-  padding-inline: 1rem;
+  padding-inline: 2.5rem; /* give headroom so carousel controls don't overlap content */
 }
 
 .carousel-track::-webkit-scrollbar {
@@ -688,7 +716,7 @@ header a:hover {
     padding-inline: 0.5rem; /* account for a small edge gap to the viewport */
   }
   .carousel-track {
-    padding-inline: 0.5rem; /* match the carousel padding */
+    padding-inline: 1.5rem; /* increase to ensure small buttons don't overlap slides */
   }
   .carousel-slide {
     min-width: calc(100% - 0.5rem);
@@ -703,7 +731,7 @@ header a:hover {
     padding-inline: 1rem;
   }
   .carousel-track {
-    padding-inline: 1rem;
+    padding-inline: 2rem; /* ensure medium screens have enough margin for buttons */
   }
 }
 
@@ -810,21 +838,93 @@ header a:hover {
   margin-top: auto;
 }
 
+/* Reviews Section */
+#reviews {
+  padding: 6rem 1.5rem;
+  background-color: transparent; /* keep consistent with projects */
+}
+.reviews-list {
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+.review-card {
+  border-radius: calc(var(--radius) + 0.5rem);
+  border: 1px solid hsl(var(--border));
+  background-color: hsl(var(--card));
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  height: 100%;
+}
+.review-stars {
+  color: #FFD166; /* warm yellow */
+  display: inline-flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+.review-client {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.review-location { color: hsl(var(--muted-foreground)); font-size: 0.85rem; flex: 0 0 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: right; }
+.review-project {
+  font-size: 0.85rem;
+  color: hsl(var(--muted-foreground));
+}
+.review-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.review-client { text-align: left; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.review-project { font-weight: 700; color: hsl(var(--foreground)); margin-top: 1rem; font-size: 1rem; }
+.review-stars {
+  color: #FFD166;
+  display: flex;
+  justify-content: center; /* center horizontally */
+  gap: 0.25rem;
+  align-items: center;
+  margin-top: 0.75rem;
+}
+.review-text {
+  margin-top: 0.5rem;
+  color: hsl(var(--muted-foreground));
+  line-height: 1.6;
+  flex-grow: 1;
+}
+
+/* Slightly smaller width for carousel slide to keep visible spacing */
+.carousel-slide .review-card { padding: 1rem; }
+
 /* Carousel controls and progress */
 .carousel-prev, .carousel-next {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: transparent;
+  width: 36px;
+  height: 36px;
+  display: inline-grid;
+  place-items: center;
+  background: hsl(var(--card) / 0.35);
   border: 1px solid hsl(var(--border));
   color: hsl(var(--foreground));
-  padding: 0.5rem;
-  border-radius: 6px;
+  padding: 0;
+  border-radius: 9999px; /* make circular */
   cursor: pointer;
   z-index: 12; /* make sure buttons hover above anything */
+  transition: all 0.18s ease;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+  opacity: 0.95;
 }
-.carousel-prev { left: 0.75rem; }
-.carousel-next { right: 0.75rem; }
+.carousel-prev:focus, .carousel-next:focus { outline: 2px solid hsl(var(--ring)); outline-offset: 2px; }
+.carousel-prev { left: 1rem; }
+.carousel-next { right: 1rem; }
+
+.carousel-prev:hover, .carousel-next:hover { transform: translateY(-50%) scale(1.05); background: hsl(var(--card) / 0.45); }
 
 .carousel-progress .progress-dot {
   width: 10px;
@@ -955,7 +1055,6 @@ header a:hover {
 
 .contact-social {
   padding-top: 1.5rem;
-  /* border-top: 1px solid hsl(var(--border)); */
 }
 
 .contact-social p {

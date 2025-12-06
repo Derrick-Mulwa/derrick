@@ -8,6 +8,7 @@ function renderHeader(info) {
         <a href="#about">About</a>
         <a href="#skills">Skills</a>
         <a href="#projects">Projects</a>
+          <a href="#reviews">Reviews</a>
         <a href="#contact">Contact</a>
       </nav>
       <div class="social-links">
@@ -24,6 +25,7 @@ function renderHeader(info) {
       <a href="#about">About</a>
       <a href="#skills">Skills</a>
       <a href="#projects">Projects</a>
+      <a href="#reviews">Reviews</a>
       <a href="#contact">Contact</a>
       <div class="mobile-social-links" style="display:flex;gap:0.75rem;margin-top:1rem;align-items:center;">
          <a class="social-link" href="${info.social.linkedin}" target="_blank" rel="noopener noreferrer" title="LinkedIn"><img src="images/linkedin_icon.svg" alt="LinkedIn" class="social-img"/></a>
@@ -40,6 +42,7 @@ function renderHero(info) {
   return `
     <section id="about" aria-label="About">
       <div class="hero-bg">
+        <canvas id="particleCanvas" class="hero-particles" aria-hidden="true"></canvas>
         <div class="hero-glow hero-glow-1"></div>
         <div class="hero-glow hero-glow-2"></div>
       </div>
@@ -88,6 +91,15 @@ function renderSkills(skills) {
         <div class="skill-icon"><img class="skill-img" src="${icon}" alt="${skill.name} icon"/></div>
         <div class="skill-name">${skill.name}</div>
         <div class="skill-description">${skill.description}</div>
+        `;
+    if (skill.details && Array.isArray(skill.details)) {
+      html += `<ul class="skill-list">`;
+      skill.details.forEach(item => {
+        html += `<li class="skill-item">${item}</li>`;
+      });
+      html += `</ul>`;
+    }
+    html += `
       </div>`;
   });
   html += `</div></div></section>`;
@@ -184,6 +196,56 @@ function renderContact(info) {
   `;
 }
 
+function renderReviews(reviews) {
+  if (!reviews || !Array.isArray(reviews) || reviews.length === 0) return '';
+
+  function starHtml(n) {
+    const max = 5;
+    let html = '';
+    for (let i = 0; i < max; i++) {
+      html += i < n ? '<span aria-hidden="true">★</span>' : '<span aria-hidden="true">☆</span>';
+    }
+    return html;
+  }
+
+  let html = `
+    <section id="reviews">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Client Reviews</span>
+          <h2 class="section-title">What Clients Say</h2>
+        </div>
+        <div class="reviews-list">
+          <div class="carousel">
+            <button class="carousel-prev" aria-label="Previous">◀</button>
+            <div class="carousel-track">
+  `;
+
+  reviews.forEach((r) => {
+    // Display ordered: name, location, service, text, stars (stars last)
+    const location = r.location ? `<div class="review-location">${r.location}</div>` : '';
+    const service = r.service || r.projectName || '';
+    html += `<div class="carousel-slide">
+      <article class="review-card">
+        <div class="review-header">
+          <div class="review-client">${r.clientName}</div>
+          ${location}
+        </div>
+        <div class="review-project">${service}</div>
+        <div class="review-text">${r.review}</div>
+        <div class="review-stars" aria-label="${r.stars} out of 5 stars">${starHtml(r.stars)}</div>
+      </article>
+    </div>`;
+  });
+
+  html += `</div><button class="carousel-next" aria-label="Next">▶</button>`;
+
+  html += `<div class="carousel-progress" style="display:flex;gap:.5rem;margin-top:1rem;justify-content:center;">`;
+  for (let i=0;i<reviews.length;i++) html += `<button class="progress-dot" aria-label="Go to slide ${i+1}"></button>`;
+  html += `</div></div></div></section>`;
+  return html;
+}
+
 function renderFooter(info) {
   const year = new Date().getFullYear();
   return `
@@ -209,6 +271,8 @@ function renderSite() {
   root.insertAdjacentHTML('beforeend', renderHero(info));
   root.insertAdjacentHTML('beforeend', renderSkills(skills));
   root.insertAdjacentHTML('beforeend', renderProjects(categories));
+  const reviews = window.reviews || [];
+  root.insertAdjacentHTML('beforeend', renderReviews(reviews));
   root.insertAdjacentHTML('beforeend', renderContact(info));
   root.insertAdjacentHTML('beforeend', renderFooter(info));
 }
@@ -216,6 +280,9 @@ function renderSite() {
 document.addEventListener('DOMContentLoaded', function() {
   // Render all site sections using `data.js` globals
   renderSite();
+
+  // Initialize hero particle animation (if present)
+  initHeroParticles();
 
   const menuBtn = document.querySelector('.menu-btn');
   const mobileMenu = document.querySelector('.mobile-menu');
@@ -242,6 +309,167 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
+
+// Particle animation in hero background
+function initHeroParticles() {
+  const heroBg = document.querySelector('.hero-bg');
+  if (!heroBg) return;
+  // Respect user preference for reduced motion
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const canvas = heroBg.querySelector('#particleCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let dpr = Math.max(window.devicePixelRatio || 1, 1);
+  let particles = [];
+  const mouse = { x: null, y: null, radius: 90 };
+  let animationId = null;
+
+  function resizeCanvas() {
+    const rect = heroBg.getBoundingClientRect();
+    canvas.style.width = rect.width + 'px';
+    canvas.style.height = rect.height + 'px';
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  class Particle {
+    constructor(w, h) {
+      this.x = Math.random() * w;
+      this.y = Math.random() * h;
+      this.vx = Math.random() * 1.6 - 0.8;
+      this.vy = Math.random() * 1.6 - 0.8;
+      this.baseRadius = 2.5;
+      this.radius = this.baseRadius;
+      this.maxRadius = 6;
+      this.connectDistance = 140;
+      this.w = w;
+      this.h = h;
+      this._hueOffset = Math.random() * 10; // hue variation
+      this._pulseOffset = Math.random() * 10; // pulse variation
+    }
+    draw(time) {
+      // glow via radial gradient (techy look)
+      const hue = 265 + Math.sin(time / 900 + this._hueOffset) * 8; // subtle hue shift
+      const alpha = 0.6;
+      const color = `hsla(${Math.floor(hue)},70%,60%,${alpha})`;
+      const g = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius * 4);
+      g.addColorStop(0, `${color}`);
+      g.addColorStop(0.12, `hsla(${Math.floor(hue)},70%,60%,${alpha * 0.75})`);
+      g.addColorStop(0.45, `hsla(${Math.floor(hue)},70%,60%,${alpha * 0.18})`);
+      g.addColorStop(1, `hsla(${Math.floor(hue)},70%,60%,0)`);
+      // add a soft glow
+      ctx.save();
+      ctx.shadowBlur = 12;
+      ctx.shadowColor = `hsla(${Math.floor(hue)},70%,60%,${alpha * 0.9})`;
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.closePath();
+      ctx.restore();
+    }
+    update(mouse) {
+      this.x += this.vx;
+      this.y += this.vy;
+      if (this.x < 0 || this.x > this.w) this.vx *= -1;
+      if (this.y < 0 || this.y > this.h) this.vy *= -1;
+      if (mouse.x !== null) {
+        const dx = mouse.x - this.x;
+        const dy = mouse.y - this.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance < mouse.radius) {
+          this.radius = this.maxRadius;
+          // slight repel with a twist for techy motion
+          const repulse = (mouse.radius - distance) / mouse.radius;
+          this.vx += (dx / distance) * -0.02 * repulse;
+          this.vy += (dy / distance) * -0.02 * repulse;
+          this.x -= dx * 0.02;
+          this.y -= dy * 0.02;
+        } else this.radius = this.baseRadius + Math.sin(Date.now() / 800 + this._pulseOffset) * 0.7;
+      }
+    }
+  }
+
+  function setupParticles() {
+    const rect = heroBg.getBoundingClientRect();
+    const area = rect.width * rect.height;
+    const count = Math.max(18, Math.min(110, Math.floor(area / 70000)));
+    particles = [];
+    for (let i = 0; i < count; i++) particles.push(new Particle(rect.width, rect.height));
+  }
+
+  function onMouseMove(e) {
+    const rect = heroBg.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    mouse.x = x;
+    mouse.y = y;
+  }
+  function onMouseLeave() { mouse.x = null; mouse.y = null; }
+
+    function animateParticles() {
+    const now = performance.now();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const rect = heroBg.getBoundingClientRect();
+    // Use lighter composite to make colors glow together
+    ctx.globalCompositeOperation = 'lighter';
+    particles.forEach((p) => {
+      p.update(mouse);
+      p.draw(now);
+    });
+    // Connect (draw lines with normal composite so they don't over-brighten)
+    ctx.globalCompositeOperation = 'source-over';
+    particles.forEach((p1, idx) => {
+      for (let j = idx + 1; j < particles.length; j++) {
+        const p2 = particles[j];
+        const dx = p1.x - p2.x;
+        const dy = p1.y - p2.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < p1.connectDistance) {
+          ctx.beginPath();
+          const lineAlpha = Math.min(0.3, 0.22 * (1 - dist / p1.connectDistance));
+          ctx.strokeStyle = `hsla(265,70%,60%,${lineAlpha})`;
+          ctx.lineWidth = 1.25;
+          ctx.shadowBlur = 6;
+          ctx.shadowColor = `hsla(265,70%,60%,${lineAlpha})`;
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.stroke();
+          ctx.shadowBlur = 0;
+          ctx.closePath();
+        }
+      }
+    });
+    animationId = requestAnimationFrame(animateParticles);
+  }
+
+  function start() {
+    resizeCanvas();
+    setupParticles();
+    if (animationId) cancelAnimationFrame(animationId);
+    animateParticles();
+  }
+
+  function stop() {
+    if (animationId) cancelAnimationFrame(animationId);
+    animationId = null;
+  }
+
+  // Resize and events
+  window.addEventListener('resize', () => {
+    resizeCanvas();
+    setupParticles();
+  });
+  heroBg.addEventListener('mousemove', onMouseMove);
+  heroBg.addEventListener('mouseleave', onMouseLeave);
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stop(); else if (!animationId) start();
+  });
+
+  // Start
+  start();
+}
 
 // Carousel Navigation
 class Carousel {
@@ -299,6 +527,15 @@ class Carousel {
 
     // Track scroll to update progress
     this.track.addEventListener('scroll', () => this.onScroll());
+
+    // Pause when hovering slides (helpful when cards have their own content)
+    this.slides.forEach(slide => {
+      if (!slide._hoverBound) {
+        slide.addEventListener('mouseenter', () => this.pauseAutoplay());
+        slide.addEventListener('mouseleave', () => this.resumeAutoplay());
+        slide._hoverBound = true;
+      }
+    });
 
     // Initialize layout and start autoplay
     setTimeout(() => {
@@ -463,6 +700,15 @@ class Carousel {
           setTimeout(() => this.updateLayout(), 50);
         });
         img._carouselBound = true;
+      }
+    });
+
+    // Re-bind slide hover listeners so new slides pause autoplay on hover
+    this.slides.forEach(slide => {
+      if (!slide._hoverBound) {
+        slide.addEventListener('mouseenter', () => this.pauseAutoplay());
+        slide.addEventListener('mouseleave', () => this.resumeAutoplay());
+        slide._hoverBound = true;
       }
     });
   }

@@ -17,42 +17,82 @@ window.skills = [
   {
     name: "Python",
     icon: "images/python_icon.svg",
-    description: "I am adept in using Python for data collection via APIs, database connections, and web scraping; for cleaning and analyzing data with Pandas and NumPy; and for building and optimizing machine learning models using scikit-learn, TensorFlow, and Statsmodels, delivering actionable insights and accurate forecasting.",
+    description: "I am adept at using Python to collect, clean, analyze and model data.",
+    details: [
+      "Data collection: APIs, web scraping, database connectors",
+      "Data cleaning & exploration with Pandas and NumPy",
+      "Machine learning models with scikit-learn & TensorFlow"
+    ],
   },
   {
     name: "Power BI",
     icon: "images/powerbi_icon.svg",
-    description: "I excel in Power BI for seamless data import and cleaning using Power Query, establishing relationships across tables, crafting custom DAX measures, creating impactful visualizations, and designing interactive dashboards and reports for informed decision-making.",
+    description: "Interactive reporting and dashboarding using Power BI.",
+    details: [
+      "Data shaping with Power Query",
+      "Custom DAX measures and model optimization",
+      "Dashboard & visualization design"
+    ],
   },
   {
     name: "Machine Learning & AI",
     icon: "images/ai_icon.svg",
-    description: "I develop and optimize machine learning and AI models using TensorFlow and scikit-learn, emphasizing time series forecasting and large language models (LLMs). My expertise includes advanced techniques for regression, classification, and deep learning, along with data preprocessing, feature engineering, and hyperparameter tuning.",
+    description: "Model development, evaluation and deployment with ML/AI tools.",
+    details: [
+      "Time series forecasting & LSTM/ARIMA models",
+      "Supervised learning: regression & classification",
+      "LLM experimentation & RAG techniques"
+    ],
   },
   {
     name: "Microsoft Excel",
     icon: "images/excel_icon.svg",
-    description: "I possess extensive expertise in advanced Excel functionalities, utilizing complex formulas, Power Query for data transformation, PivotTables for dynamic analysis, and VBA for automation. My skills enable me to derive actionable insights, enhance operational efficiency, and support data-driven decision-making.",
+    description: "Advanced Excel skills for analysis and automation.",
+    details: [
+      "Power Query & PivotTables",
+      "VBA scripting & macros",
+      "Advanced formulas for analytics"
+    ],
   },
   {
     name: "SQL",
     icon: "images/sql_icon.svg",
-    description: "My SQL expertise encompasses advanced techniques in database management and manipulation. I excel in crafting complex queries and optimizing database performance. My skills include designing normalized schemas, implementing data integrity constraints, leveraging joins for efficient data retrieval, and automating processes through stored procedures and triggers.",
+    description: "Relational database design, querying and optimization.",
+    details: [
+      "Complex queries and performance tuning",
+      "Schema design & normalization",
+      "Stored procedures & automation"
+    ],
   },
   {
     name: "Automation",
     icon: "images/automation_icon.svg",
-    description: "I specialize in automating workflows using Power Automate and Python, integrating diverse systems through APIs, manipulating and transforming data, crafting custom scripts, and ensuring robust error handling. My solutions prioritize efficiency, security, and scalability across business processes.",
+    description: "Building automated workflows and integrations.",
+    details: [
+      "Power Automate flows & orchestration",
+      "Python scripts for ETL and automation",
+      "API integrations and scheduling"
+    ],
   },
   {
     name: "Communication",
     icon: "images/communication_icon.svg",
-    description: "I possess strong communication skills that allow me to articulate complex technical concepts in an understandable manner. I engage effectively with diverse stakeholders and team members, ensuring clarity and alignment in discussions. My cross-team collaborative approach fosters open dialogue.",
+    description: "Clear communication and stakeholder engagement.",
+    details: [
+      "Technical explanations for non-technical stakeholders",
+      "Collaboration across teams and workshops",
+      "Structured reporting & data storytelling"
+    ],
   },
   {
     name: "Data Storytelling",
     icon: "images/data_story_icon.svg",
-    description: "I transform complex data sets into engaging narratives that resonate with audiences. By combining compelling visualizations with structured frameworks, I illuminate key insights, guiding stakeholders toward informed decisions and fostering a deeper understanding of strategic implications.",
+    description: "Combining visualizations and narratives for clarity.",
+    details: [
+      "Designing clear visuals for decision-making",
+      "Narrative frameworks tied to KPIs",
+      "Data-backed recommendations & presentations"
+    ],
   }
 ];
 
@@ -282,3 +322,103 @@ window.projectCategories = [
     ]
   }
 ];
+
+// Client Reviews
+window.reviews = [
+  {
+    "clientName": "Rajib L.",
+    "projectName": "Urgent Power BI Dashboard Development",
+    "stars": 5,
+    "review": "Derrick understands the requirement and his knowledge on the data side is really good. Very easy to communicate, prompt and talented developer. Really appreciate the work he has done.",
+    "location": "Banglore, India"
+  },
+  {
+    "clientName": "Nathan K.",
+    "projectName": "SEO Data Scraping Bot Development",
+    "stars": 5,
+    "review": "Took my specifications and made an enterprise grade bot. Work is top notch!",
+    "location": "Pekin, United States"
+  },
+  {
+    "clientName": "Muhammad U.",
+    "projectName": "Excel-Driven BI Dashboard Creation",
+    "stars": 5,
+    "review": "Excellent work delivered",
+    "location": "Des Plaines, United States"
+  },
+  
+  {
+    "clientName": "Port80Link",
+    "projectName": "Python Selenium Web Scraping Specialist",
+    "stars": 5,
+    "review": "Derrick is a highly professional and expert freelancer. His expert help made my whole project a success. I really appreciate his effort throughout the project. Would continue working with him with my upcoming projects.",
+    "location": "Dhaka, Bangladesh"
+  },
+  {
+    "clientName": "Whitney M.",
+    "projectName": "PowerBI Financial Dashboard Creation",
+    "stars": 5,
+    "review": "Derrick a terrific data professional. Very timely. Understands project details and works independently with clean useful dashboard delivery. Highly recommend!",
+    "location": "Victor, United States"
+  },
+  {
+    "clientName": "S. Lyle G.",
+    "projectName": "Real-Time Options Data API Streaming Python Script",
+    "stars": 5,
+    "review": "Highly recommend this coder. I have been using freelancer for 15 years and you are one of the best I've ever worked with!",
+    "location": "NEWCASTLE, United States"
+  },
+  {
+    "clientName": "Hayden B.",
+    "projectName": "News Site Data Scraping & Analysis",
+    "stars": 5,
+    "review": "Derrick did a great job. Quick and efficient.",
+    "location": "South Melbourne, Australia"
+  },
+
+  {
+    "clientName": "Teow Guan C.",
+    "projectName": "Scrape other sites",
+    "stars": 5,
+    "review": "Derrick was detailed and checked in many times with the requirements. Great job done. appreciate and recommend his good work.",
+    "location": "SINGAPORE, Singapore"
+  },
+  {
+    "clientName": "Chi C.",
+    "projectName": "Operational Data Analysis & Visualization Expert Needed",
+    "stars": 5,
+    "review": "It has been absolutely a delight working with Derrick! He made the analysis super cool. I would 100% like to work with him again and have a long term partnership!",
+    "location": "Delhi, India"
+  },
+  
+  {
+    "clientName": "Pooja S.",
+    "projectName": "Comprehensive Data Science and Analysis Project",
+    "stars": 5,
+    "review": "Good working with Derrick..Great job!!",
+    "location": "Bengaluru, India"
+  },
+  {
+    "clientName": "Ziad A.",
+    "projectName": "NBA Player Stats Importance Analysis",
+    "stars": 5,
+    "review": "Amazing work, completed it in a very short time frame with professionalism and skill. Provided me with data analysis and a few models for my data. 100% recommend.",
+    "location": "Toronto, Canada"
+  },
+  
+  {
+    "clientName": "Ak A.",
+    "projectName": "Data Project",
+    "stars": 5,
+    "review": "I had a great experience with Derrick. He has great expertise, he delivered my project as required and on time.",
+    "location": "Delhi, India"
+  },
+  {
+    "clientName": "Hector Q.",
+    "projectName": "Data Analytics Assessment",
+    "stars": 5,
+    "review": "Great work, Analytics job was done perfectly",
+    "location": "Los Angeles, United States"
+  }
+]
+;
