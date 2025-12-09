@@ -1,100 +1,135 @@
 // Data for simple site (converted from portfolioData.ts)
 window.personalInfo = {
   name: "Derrick Mulwa",
-  title: "Data Professional",
-  bio: `I'm a results-driven data professional with three years of experience delivering innovative solutions across data analysis, financial analysis, machine learning, and automation. I transform complex data into actionable insights that drive success.`,
+  title: "Data Analytics, AI & Automation Expert",
+  bio: `I'm a results-driven data professional with three years of experience delivering innovative solutions across data analysis, financial analysis, machine learning, automation, API development and integrations, advanced visualization, and database management. I transform complex data into actionable insights that drive success.`,
   email: "derrickmulwa.programming@gmail.com",
   phone: "+254 799 368 479",
   location: "Nairobi, Kenya",
   social: {
     linkedin: "https://www.linkedin.com/in/derrick-mulwa/",
     github: "https://github.com/Derrick-Mulwa",
-    whatsapp: "https://api.whatsapp.com/send?phone=254799368479&text=Hello%20Derrick.%0B%0BI%20am%20reaching%20out%20to%20discuss%20a%20potential%20job/project%20opportunity%20with%20you",
+    whatsapp: "https://api.whatsapp.com/send?phone=254799368479&text=Hello%20Derrick.%20I%20am%20reaching%20out%20to%20discuss%20a%20potential%20job/project%20opportunity%20with%20you",
   }
 };
 
 window.skills = [
+  // {
+  //   name: "Python",
+  //   icon: "images/python_icon.svg",
+  //   description: "I am adept at using Python to collect, clean, analyze and model data.",
+  //   details: [
+  //     "Data collection: APIs, web scraping, database connectors",
+  //     "Data cleaning & exploration with Pandas and NumPy",
+  //     "Machine learning models with scikit-learn & TensorFlow"
+  //   ],
+  // },
   {
-    name: "Python",
-    icon: "images/python_icon.svg",
-    description: "I am adept at using Python to collect, clean, analyze and model data.",
-    details: [
-      "Data collection: APIs, web scraping, database connectors",
-      "Data cleaning & exploration with Pandas and NumPy",
-      "Machine learning models with scikit-learn & TensorFlow"
-    ],
-  },
-  {
-    name: "Power BI",
-    icon: "images/powerbi_icon.svg",
-    description: "Interactive reporting and dashboarding using Power BI.",
-    details: [
-      "Data shaping with Power Query",
-      "Custom DAX measures and model optimization",
-      "Dashboard & visualization design"
-    ],
-  },
-  {
-    name: "Machine Learning & AI",
-    icon: "images/ai_icon.svg",
-    description: "Model development, evaluation and deployment with ML/AI tools.",
-    details: [
-      "Time series forecasting & LSTM/ARIMA models",
-      "Supervised learning: regression & classification",
-      "LLM experimentation & RAG techniques"
-    ],
-  },
-  {
-    name: "Microsoft Excel",
-    icon: "images/excel_icon.svg",
-    description: "Advanced Excel skills for analysis and automation.",
-    details: [
-      "Power Query & PivotTables",
-      "VBA scripting & macros",
-      "Advanced formulas for analytics"
-    ],
-  },
-  {
-    name: "SQL",
-    icon: "images/sql_icon.svg",
-    description: "Relational database design, querying and optimization.",
-    details: [
-      "Complex queries and performance tuning",
-      "Schema design & normalization",
-      "Stored procedures & automation"
-    ],
-  },
-  {
-    name: "Automation",
-    icon: "images/automation_icon.svg",
-    description: "Building automated workflows and integrations.",
-    details: [
-      "Power Automate flows & orchestration",
-      "Python scripts for ETL and automation",
-      "API integrations and scheduling"
-    ],
-  },
-  {
-    name: "Communication",
-    icon: "images/communication_icon.svg",
-    description: "Clear communication and stakeholder engagement.",
-    details: [
-      "Technical explanations for non-technical stakeholders",
-      "Collaboration across teams and workshops",
-      "Structured reporting & data storytelling"
-    ],
-  },
-  {
-    name: "Data Storytelling",
-    icon: "images/data_story_icon.svg",
-    description: "Combining visualizations and narratives for clarity.",
-    details: [
-      "Designing clear visuals for decision-making",
-      "Narrative frameworks tied to KPIs",
-      "Data-backed recommendations & presentations"
-    ],
-  }
-];
+  name: "Python",
+  icon: "images/python_icon.svg",
+  description: "I am highly skilled in Python for end-to-end data workflows, from data extraction and transformation to advanced analytics, automation, and machine learning.",
+  details: [
+    "Data collection: APIs, web scraping (Selenium, BeautifulSoup), database connectors, scheduled pipelines",
+    "Data cleaning, transformation, and exploration with Pandas, NumPy, and data validation frameworks",
+    "Machine learning models with scikit-learn & TensorFlow, including classification, regression, clustering, and model evaluation",
+    "Automation: report generation, ETL tasks, browser automation, and workflow orchestration",
+    "Data visualization with Matplotlib, Seaborn, and integration with BI tools",
+    "Efficient handling of large datasets and performance optimization techniques"
+  ],
+},
+{
+  name: "Power BI",
+  icon: "images/powerbi_icon.svg",
+  description: "I create clean, interactive, and insight-driven Power BI dashboards that turn raw data into clear stories for decision-making.",
+  details: [
+    "Data preparation: Power Query transformations, merging, appending, and building robust data models",
+    "DAX mastery: custom measures, calculated columns, time-intelligence functions, and complex business logic",
+    "Interactive dashboards with slicers, drill-downs, tooltips, bookmarks, and dynamic visuals",
+    "Data modeling: star schema design, relationship creation, optimization, and performance tuning",
+    "Integration with multiple data sources including Excel, SQL databases, APIs, cloud storage, and live connections",
+    "Report automation: scheduled refreshes, gateway configuration, workspace setup, and secure sharing",
+    "Advanced storytelling through custom visuals, KPI indicators, conditional formatting, and layout design"
+  ],
+},
+{
+  name: "Machine Learning & AI",
+  icon: "images/ai_icon.svg",
+  description: "I develop reliable, data-driven machine learning and AI solutions that automate decision-making, enhance predictions, and uncover hidden patterns.",
+  details: [
+    "Supervised & unsupervised learning: classification, regression, clustering, recommendation systems",
+    "Model development with scikit-learn, TensorFlow, Keras, XGBoost, and statsmodels",
+    "Feature engineering: preprocessing, feature selection, encoding, scaling, and dimensionality reduction",
+    "Model evaluation & optimization: cross-validation, hyperparameter tuning, A/B testing, and performance monitoring",
+    "Modern AI: building AI agents capable of autonomous tasks, tool use, and decision-making workflows",
+    "LLM integrations: connecting apps with GPT-based models, Anthropic, Gemini, and open-source LLMs",
+    "End-to-end ML pipelines: data ingestion, training, validation, deployment automation, and model versioning"
+  ],
+},
+{
+  name: "Microsoft Excel",
+  icon: "images/excel_icon.svg",
+  description: "I leverage Microsoft Excel to perform advanced data analysis, build dynamic reports and dashboards, and automate workflows, turning raw data into actionable insights.",
+  details: [
+    "Data analysis: advanced formulas, pivot tables, data validation, and conditional formatting",
+    "Automation: VBA scripting, macros, and automated report generation",
+    "Data visualization: dynamic charts, dashboards, slicers, and interactive reporting",
+    "Data cleaning & transformation: text functions, Power Query, and structured data manipulation",
+    "Financial modeling: scenario analysis, forecasting, ROI calculations, and KPI tracking",
+    "Integration: connecting Excel with databases, APIs, and external data sources",
+    "Efficiency & performance: optimizing large datasets, formula performance, and workbook design best practices"
+  ],
+},
+
+{
+  name: "SQL & Databases",
+  icon: "images/sql_icon.svg",
+  description: "I design, manage, and optimize relational databases, using SQL to extract, transform, and analyze data for actionable insights and business intelligence.",
+  details: [
+    "Querying: writing efficient SELECT statements, joins, subqueries, CTEs, and window functions",
+    "Database design: normalization, schema design, indexing, and relationship management",
+    "Performance optimization: query tuning, execution plan analysis, and indexing strategies",
+    "Data manipulation: INSERT, UPDATE, DELETE, bulk operations, and transaction handling",
+    "Stored procedures & triggers: automating workflows, data validation, and complex business logic",
+    "Integration: connecting SQL databases with Python, Power BI, and other analytics tools",
+    "Reporting & analytics: aggregations, complex calculations, and preparing data for dashboards and visualization"
+  ],
+},
+
+{
+  name: "Automation",
+  icon: "images/automation_icon.svg",
+  description: "I build intelligent automation workflows combining Python, RPA, and AI agents to streamline tasks, integrate systems, and enhance productivity.",
+  details: [
+    "Process automation: automating complex business workflows, data pipelines, and repetitive tasks end-to-end",
+    "Python automation: scripts for file handling, API integrations, web scraping, ETL pipelines, and report generation",
+    "AI-powered automation: integrating AI agents to perform multi-step reasoning, dynamic decision-making, and task orchestration",
+    "System & software integration: connecting databases, cloud platforms, APIs, SaaS tools, and internal systems for seamless workflows",
+    "RPA & desktop automation: building bots with Power Automate Desktop, Selenium, and other automation frameworks",
+  ],
+}];
+
+//   [
+//   {
+//     name: "Communication",
+//     icon: "images/communication_icon.svg",
+//     description: "Clear communication and stakeholder engagement.",
+//     details: [
+//       "Technical explanations for non-technical stakeholders",
+//       "Collaboration across teams and workshops",
+//       "Structured reporting & data storytelling"
+//     ],
+//   },
+//   {
+//     name: "Data Storytelling",
+//     icon: "images/data_story_icon.svg",
+//     description: "Combining visualizations and narratives for clarity.",
+//     details: [
+//       "Designing clear visuals for decision-making",
+//       "Narrative frameworks tied to KPIs",
+//       "Data-backed recommendations & presentations"
+//     ],
+//   }
+// ];
 
 window.projectCategories = [
   {
