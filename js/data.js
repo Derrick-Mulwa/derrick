@@ -136,6 +136,13 @@ window.projectCategories = [
     name: "Power BI",
     projects: [
       {
+        title: "US Housing Price Analysis Dashboard",
+        image: "images/housing_video_demo.gif",
+        description: "An interactive Power BI dashboard that visualizes US home values from 2008-2023 alongside six socioeconomic variables (Remote Work %, Income Growth, Median Age, Median HH Income, Population, Poverty Rate) to identify correlations and regional patterns",
+        tags: ["Power BI", "Real estate", "Time Series Analysis", "Power Query", "Excel", "Correlation analysis"],
+        link: "https://github.com/Derrick-Mulwa/US-Housing-Price-Analysis-Dashboard/blob/master/README.md"
+      },
+      {
         title: "Sales Analysis Dashboard for a Diamond Shop",
         image: "images/sales analysis dashboard.png",
         description: "This Power BI dashboard serves as a comprehensive analytical tool designed to provide deep insights into the sales and operational performance of a diamond shop. Leveraging data from a single Excel file with multiple tabs, the dashboard effectively consolidates information related to sales analysis, certified diamonds, and data entry operations.",
@@ -330,7 +337,7 @@ window.projectCategories = [
     projects: [
       {
         title: "Hospital Management System Database",
-        image: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=600&h=400&fit=crop",
+        image: "images/hospdbSchema.png",
         description: "The Hospital Management System database was designed to manage various aspects of hospital operations, including patient management, physician management, appointments, room allocation, and billing. This documentation provides an overview of the database schema and implementation.",
         tags: ["SQL", "MySQL", "ERD Diagram", "Procedures", "Triggers", "Functions"],
         link: "https://github.com/Derrick-Mulwa/Hospital-Management-System-Database/blob/main/README.md"
@@ -342,14 +349,14 @@ window.projectCategories = [
     projects: [
       {
         title: "Excel-Based Automated Invoicing System using VBA",
-        image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&h=400&fit=crop",
+        image: "/images/EXCEL_INVOICE.png",
         description: "This Excel-based Automated Invoicing System, powered by Visual Basic for Applications (VBA), streamlines the invoicing process for a data consultancy. It automates client-specific invoice generation, service tracking, and recordkeeping.",
         tags: ["Microsoft Excel", "VBA", "Excel Formulas", "Data Validation", "Conditional Formatting"],
         link: "https://github.com/Derrick-Mulwa/Excel-Based-Automated-Invoicing-System-VBA/blob/main/README.md"
       },
       {
         title: "Google Sheets Sales Dashboard",
-        image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop",
+        image: "/images/google_Sheets_dashboard.png",
         description: "This project involved the creation of a dynamic sales performance dashboard using Google Sheets. The dashboard provides insights into sales trends over time, product demand, regional performance, and deal size distribution.",
         tags: ["Google Sheet", "Data Visualisation", "Dashboard Design", "Strategic Recommendations"],
         link: "https://github.com/Derrick-Mulwa/Google-Sheets-Sales-Dashboard/blob/main/README.md"
