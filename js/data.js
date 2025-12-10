@@ -349,14 +349,14 @@ window.projectCategories = [
     projects: [
       {
         title: "Excel-Based Automated Invoicing System using VBA",
-        image: "/images/EXCEL_INVOICE.png",
+        image: "images/EXCEL_INVOICE.png",
         description: "This Excel-based Automated Invoicing System, powered by Visual Basic for Applications (VBA), streamlines the invoicing process for a data consultancy. It automates client-specific invoice generation, service tracking, and recordkeeping.",
         tags: ["Microsoft Excel", "VBA", "Excel Formulas", "Data Validation", "Conditional Formatting"],
         link: "https://github.com/Derrick-Mulwa/Excel-Based-Automated-Invoicing-System-VBA/blob/main/README.md"
       },
       {
         title: "Google Sheets Sales Dashboard",
-        image: "/images/google_Sheets_dashboard.png",
+        image: "images/google_Sheets_dashboard.png",
         description: "This project involved the creation of a dynamic sales performance dashboard using Google Sheets. The dashboard provides insights into sales trends over time, product demand, regional performance, and deal size distribution.",
         tags: ["Google Sheet", "Data Visualisation", "Dashboard Design", "Strategic Recommendations"],
         link: "https://github.com/Derrick-Mulwa/Google-Sheets-Sales-Dashboard/blob/main/README.md"
